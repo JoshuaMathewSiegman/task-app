@@ -108,6 +108,21 @@ export function useAuth(): UseAuthReturn {
     }
   };
 
+  // Task-App Improvements: sign in with GitHub (Supabase Auth provider "github").
+  const handleGitHubLogin = async () => {
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+    } catch (error: any) {
+      setError(error.message);
+      console.error("Error with GitHub login:", error);
+    }
+  };
+
   const handleSignup = async () => {
     clearError();
     try {
@@ -169,6 +184,7 @@ export function useAuth(): UseAuthReturn {
     signOut,
     handleLogin,
     handleGoogleLogin,
+    handleGitHubLogin,
     handleSignup,
     setEmail,
     setPassword,
